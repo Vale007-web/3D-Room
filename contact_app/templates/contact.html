@@ -1,0 +1,27 @@
+{% comment %} Yout Django {% endcomment %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<link rel="icon" type="image/vnd.icon" href="/static/favicon.ico">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contattaci</title>
+    <style>
+        body {background-color: rgb(79, 106, 164);}
+    </style>
+</head>
+<body>
+    <h1>Contattaci</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Invia i dati!</button>
+    </form>
+
+    <h1><a href="{% url 'login' %}">Vai al login cliccando quì!</a></h1>
+
+</body>
+</html>

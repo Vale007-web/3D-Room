@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+
+{% block content %}
+<br><h2>Accedi alla tua 3D Room</h2>
+<form action="{% url 'login' %}" method="post" id="form" style="color:rgb(214, 71, 0);">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    {% if error %}
+    <span style="color: red;">{{ error }}</span>
+    {% endif %}
+
+    <button type="submit">Login</button>
+</form>
+
+<br><br>
+
+<div style="background-color: rgba(255, 255, 255, 0.35); border-radius: 25px; padding: 15px;"><h2>
+Se non hai ancora un account... <a href="{% url 'register' %}">Registrati!</a>
+<br><br>
+Per qualsiasi informazione <a href="{% url 'contact' %}">contattaci!</a>
+</h2></div>
+
+{% endblock %}

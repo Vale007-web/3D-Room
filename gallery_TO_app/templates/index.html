@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D-Room</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="icon" type="image/vnd.icon" href="/static/favicon.ico">
+    <title>3D Room</title>
+  </head>
+  <body>
+    <h1>3D Room!</h1>
+
+    <!-- Controllo accesso e mostro nome e immagine -->
+    {% if request.user.is_authenticated %} {% if request.user.user.avatar %}
+    <img
+      src="{{ request.user.user.avatar.url }}"
+      width="200"
+      alt="Avatar"
+      class="avatar-circle"
+    />
+    <h2>
+      Benvenuto {{ request.user.user.name }} {{ request.user.user.surname }}!
+    </h2>
+    {% else %}
+    <img src="{% static 'default_avatar.png' %}" width="200" />
+    {% endif %} {% else %}
+    <p>Non sei loggato.</p>
+    {% endif %}
+
+    <!-- funzionamento del logout -->
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %} {{ form.as_p }} {% if error %}
+      <span style="color: red">{{ error }}</span>
+      {% endif %}
+      <button class="animated-button" type="submit">Logout</button>
+    </form>
+
+    <br /><br /><br />
+
+    <!-- funzionamento vai alla canvas -->
+    <a href="{% url 'canvas' %}">
+      <button class="animated-button">Vai alla<br />Canvas</button></a
+    >
+
+    <!-- funzionamento vai alla 3d room -->
+    <a href="{% url 'gallery' %}">
+      <button class="animated-button">Vai alla<br />galleria 3D</button></a
+    >
+
+    <!-- collegamento con javascript -->
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>

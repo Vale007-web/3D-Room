@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/vnd.icon" href="/static/favicon.ico">
+    <title>Canvas</title>
+    <link rel="stylesheet" href="{% static 'css/style_canvas.css' %}" />
+  </head>
+  <body>
+
+    <!-- FORM UPLOAD IMMAGINI -->
+    <div id="ui">
+      <h1>Canvas page</h1>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %} {{ form.as_p }}
+        <!-- Bottone per inviare i dati -->
+        <button>Upload</button>
+      </form>
+    </div>
+
+    <!-- BOX INFO UTENTE -->
+    <div id="userinfo">
+      <!-- Messaggio di benvenuto -->
+      {% if request.user.is_authenticated %}
+      <div>Benvenuto nella canvas,<br>{{ request.user.user.name }}!</div>
+      <!-- Bottone per tornare alla home -->
+      <a href="{% url 'index' %}">
+        <button style="position: relative; top: -35px; margin-right: 10px;">Torna alla Home</button></a>
+      <!-- Immagine profilo -->
+      {% if request.user.user.avatar %}
+      <img src="{{ request.user.user.avatar.url }}" width="115" class="avatar-circle"/>
+      {% else %}
+      <img src="{% static 'default_avatar.png' %}" width="115" class="avatar-circle"/>
+      {% endif %}
+      <!-- Se non si è loggati... Da rimuovere -->
+      {% else %}
+      <p>Non sei loggato.</p>
+      <br />
+      <a href="{% url 'login' %}">
+        <button>Torna al Login</button>
+      </a>
+      {% endif %}
+    </div>
+
+
+<!-- GALLERIA CANVAS - IMMAGINI CARICATE -->
+    <h2>Immagini caricate</h2>
+
+    {% if images %}
+    <div class="gallery">
+      {% for img in images %}
+      <div class="gallery-item">
+        <div style="display: inline-block; margin: 10px; text-align: center">
+          <img src="{{ img.Canvas_Img.url }}" width="200" />
+          <p>{{ img.name }}</p>
+          <form class="delete-form" action="{% url 'delete_image' img.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Elimina</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>Nessuna immagine caricata</p>
+    {% endif %}
+  </body>
+</html>

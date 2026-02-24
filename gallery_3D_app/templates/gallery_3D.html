@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/vnd.icon" href="/static/favicon.ico">
+    <title>Galleria 3D</title>
+    <link rel="stylesheet" href="{% static 'css/style_gallery.css' %}" />
+  </head>
+
+  <body>
+    {% block content %}
+
+    <!-- OVERLAY DI CARICAMENTO -->
+    <div id="loading-screen">
+      <h2>Caricamento...</h2>
+    </div>
+
+    <!-- CANVAS THREE.JS -->
+    <canvas id="room-canvas"></canvas>
+    <div class="titolo">3D Room</div>
+    <div id="crosshair"></div>
+    <!-- popup click oggetti 3D -->
+    <div id="object-popup" class="popup hidden">
+      <div class="popup-content">
+        <h2>Dettagli</h2>
+        {% comment %} <p id="popup-info">Informazioni qui...</p> {% endcomment %}
+<p><strong>Nome modello 3D:</strong> <span id="popup-model-title"></span></p>
+<p><strong>Posizione:</strong> <span id="popup-model-position"></span></p>
+
+        <button id="close-popup">Chiudi</button>
+      </div>
+    </div>
+
+    <!-- BOX IN ALTO A SINISTRA (FORM) -->
+    <div id="ui">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Upload Modello 3D</button>
+      </form>
+    </div>
+
+    <!-- BOX IN ALTO A DESTRA (INFO UTENTE) -->
+    <div id="userinfo">
+      {% if request.user.is_authenticated %}
+      <!-- Messaggio di benvenuto -->
+      <p>Benvenuto {{ request.user.user.name }}!</p>
+      <!-- Bottone per tornare alla home -->
+      <a href="{% url 'index' %}">
+        <button style="position: relative; top: -35px; margin-right: 10px;">Torna alla Home</button></a>
+      <!-- Immagine profilo -->
+      {% if request.user.user.avatar %}
+      <img src="{{ request.user.user.avatar.url }}" width="80" class="avatar-circle"/>
+      {% else %}
+      <img src="{% static 'default_avatar.png' %}" width="80" class="avatar-circle"/>
+      {% endif %} {% else %}
+      <p>Non sei loggato.</p>
+      <a href="{% url 'login' %}">
+        <button>Torna al Login</button>
+      </a>
+      {% endif %}
+    </div>
+
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/PointerLockControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+      window.MODELS_FROM_DJANGO = [
+          {% for m in models %}
+          {
+              url: "{{ m.model_file.url }}",
+              scale: {{ m.scale }},
+              title: "{{ m.title }}",
+              position: "{{ m.position_choice}}",
+              pos: [{{ m.get_coordinates.0 }}, {{ m.get_coordinates.1 }}, {{ m.get_coordinates.2 }}]
+          },
+          {% endfor %}
+      ];
+      
+      
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
+    {% endblock content %}
+  </body>
+</html>
