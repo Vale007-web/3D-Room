@@ -25,6 +25,10 @@ All'interno della visuale sull'ambiente virtuale è presente una croce, che fa d
 * Javascript
 * Three.js
 * SQLite
+### Tecnologie adottate per la sicurezza:
+**In questo progetto ho dato particolare importanza alla sicurezza dei dati sensibili:**
+* **Gestione Variabili d'Ambiente:** Le informazioni critiche come la `SECRET_KEY` di Django e le configurazioni di `DEBUG` non sono caricate nel codice sorgente.
+* **Integrazione Python-Dotenv:** Il progetto utilizza la libreria `python-dotenv` per caricare le configurazioni da un file `.env` locale, che viene escluso dal controllo di versione tramite `.gitignore`.
 
 ## Installazione:
 1. Clonare (o scaricare) la repository: <br>
