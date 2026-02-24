@@ -10,23 +10,62 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from pathlib import Path
-import os
+# ------ CON LA SECRET_KEY INTERNA: ------
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+#from pathlib import Path
+#import os
+
+#   Build paths inside the project like this: BASE_DIR / 'subdir'.
+#BASE_DIR = Path(__file__).resolve().parent.parent
+
+#   Quick-start development settings - unsuitable for production
+#   See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+
+#   SECURITY WARNING: keep the secret key used in production secret!
+#SECRET_KEY = 'django-insecure-restodellachiavedisicurezza'
+
+#   SECURITY WARNING: don't run with debug turned on in production!
+#DEBUG = True
+
+#ALLOWED_HOSTS = []
+
+
+
+
+
+
+# ------ CON LA SECRET_KEY ESTERNA: ------
+
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# BASE_DIR è la cartella dove c'è manage.py
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Definisco il percorso del file .env
+env_path = BASE_DIR / '.env'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# Carichiamo il file e salviamo il risultato (True se lo trova, False se no)
+exists = load_dotenv(dotenv_path=env_path)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)9s8k!5rn=88x&d1wga%7$3&q*7lzr!2$0)94^u%kk$oc9uuc*'
+print(f"--- DEBUG INFO ---")
+print(f"Il file .env esiste nel percorso? {env_path.exists()}")
+print(f"load_dotenv ha caricato il file? {exists}")
+print(f"Valore grezzo di DEBUG nel .env: '{os.getenv('DEBUG')}'")
+print(f"------------------")
+
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
+
+
+
+
+
 
 
 # Application definition
