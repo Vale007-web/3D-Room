@@ -27,17 +27,20 @@ All'interno della visuale sull'ambiente virtuale è presente una croce, che fa d
 * SQLite
 
 ## Installazione:
-1. Clonare (o scaricare) la repository: git clone https://github.com/Vale007-web/3D-Room.git
-2. Creare un ambiente virtuale (all'interno della cartella del progetto): python -m venv .venv
-3. Attivare l'ambiente virtuale creato:
-   Su Windows: .venv\Scripts\activate
-   Su Mac/Linux:
-4. Installare le dipendende: pip install -r requirements.txt
-5. Configura le variabili d'ambiente:
-   modifica il file .env.example oppure crea un file .env nella root del progetto e aggiungi: <br>
+1. Clonare (o scaricare) la repository: <br>
+`git clone https://github.com/Vale007-web/3D-Room.git`
+2. Creare un ambiente virtuale (all'interno della cartella del progetto): <br>
+`python -m venv .venv`
+3. Attivare l'ambiente virtuale creato: <br>
+Su Windows: `.venv\Scripts\activate` <br>
+Su Mac/Linux: `source .venv/bin/activate`
+4. Installare le dipendenze: <br>
+`pip install -r requirements.txt`
+5. Configura le variabili d'ambiente: <br>
+modifica il file '.env.example' oppure crea un file '.env' nella root del progetto e aggiungi: <br>
    `SECRET_KEY=tua_chiave_segreta` <br>
    `DEBUG=True` <br>
-   *(Puoi generare una chiave usando: python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')
+   *(Puoi generare una chiave usando: `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`)
 6. Esegui le migrazioni e avvia il server: <br>
    `python manage.py migrate` <br>
    `python manage.py runserver` <br>
